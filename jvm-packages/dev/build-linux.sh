@@ -18,6 +18,7 @@
 # under the License.
 #
 BASEDIR="$( cd "$( dirname "$0" )" && pwd )" # the directory of this file
+echo Current $BASEDIR
 
 docker build -t dmlc/xgboost4j-build "${BASEDIR}" # build and tag the Dockerfile
 
