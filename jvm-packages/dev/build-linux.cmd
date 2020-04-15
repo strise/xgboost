@@ -22,11 +22,18 @@ rem
 rem The the local path of this file
 set "BASEDIR=%~dp0"
 
+cd %BASEDIR%\..\..
+set "PROJECT_DIR=%CD%"
+cd %BASEDIR%
+
 rem The local path of .m2 directory for maven
-set "M2DIR=%BASEDIR%\.m2\"
+set "M2DIR=%BASEDIR%.m2\"
 
 rem Create a local .m2 directory if needed
 if not exist "%M2DIR%" mkdir "%M2DIR%"
+
+echo Mounting %PROJECT_DIR%
+echo Mounting %M2DIR%
 
 rem Build and tag the Dockerfile
 docker build -t dmlc/xgboost4j-build %BASEDIR%
@@ -38,7 +45,7 @@ docker run^
  --env JAVA_OPTS="-Xmx6g"^
  --env MAVEN_OPTS="-Xmx2g"^
  --ulimit core=-1^
- --volume %BASEDIR%\..\..:/xgboost^
+ --volume %PROJECT_DIR%:/xgboost^
  --volume %M2DIR%:/root/.m2^
  dmlc/xgboost4j-build^
  /xgboost/jvm-packages/dev/package-linux.sh "%*"
